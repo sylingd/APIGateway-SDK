@@ -1,0 +1,15 @@
+{
+	"name": "sylingd/apigateway-sdk",
+	"description": "APIGateway SDK",
+	"license": "Apache-2.0",
+	"type": "library",
+	"require": {
+		"php": ">=7.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"GPBMetadata\\": "protobuf/GPBMetadata/",
+			"APIGateway\\Protobuf\\": "protobuf/APIGateway/Protobuf/",
+			"APIGateway\\": "src/"
+		}
+	}
