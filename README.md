@@ -59,7 +59,7 @@ $api = Helper::create(Helper::DRIVER_NATIVE, [
 函数原型：
 
 ```php
-public function call(string $action, Google\Protobuf\Internal\Message $data): Proto\Api\Gateway\Response;
+public function call(string $action, Google\Protobuf\Internal\Message $data): APIGateway\Protobuf\Response;
 ```
 
 * string $action 接口名
