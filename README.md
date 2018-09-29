@@ -6,6 +6,12 @@
 
 PHP 7.0+，[Protobuf扩展](https://pecl.php.net/package/protobuf)或[google/protobuf](https://packagist.org/packages/google/protobuf)
 
+### 使用
+
+```
+composer require sylingd/apigateway-sdk
+```
+
 ### 初始化
 
 PHP SDK提供了两种协议，分别为TCP和HTTP，初始化方式有些许差别：
