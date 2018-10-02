@@ -11,17 +11,20 @@
  */
 namespace APIGateway;
 
-use Proto\Api\Gateway\Request;
-use Proto\Api\Gateway\Request\Type;
-use Proto\Api\Gateway\Response;
+use APIGateway\Protobuf\Request;
+use APIGateway\Protobuf\Request\Type;
+use APIGateway\Protobuf\Response;
 use Google\Protobuf\Any;
 use Google\Protobuf\Internal\Message;
 
-class Coro extends AbstraceSDK {
+class Coro extends AbstractSDK {
 	protected $client_info = '';
 
 	public function __construct($config = []) {
 		parent::__construct($config);
+		if (!class_exists('Swoole\\Coroutine\\Client')) {
+			throw new Exception('Swoole 2.0+ is required');
+		}
 		switch ($this->config['protocol']) {
 			case Helper::PROTOCOL_TCP:
 				$this->connection = new \Swoole\Coroutine\Client(SWOOLE_TCP);
@@ -72,7 +75,7 @@ class Coro extends AbstraceSDK {
 		$this->checkConnection();
 		$data = $this->packRequest($action, $data);
 		if ($this->config['protocol'] === Helper::PROTOCOL_HTTP) {
-			$rs = $this->fetchUrl($url, $data->serializeToString());
+			$rs = $this->fetchUrl($this->config['url'] . 'api/service/single', $data->serializeToString());
 			if ($rs === FALSE) {
 				throw new Exception('connect failed', $this->connection->errCode);
 			}

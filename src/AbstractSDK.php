@@ -11,7 +11,13 @@
  */
 namespace APIGateway;
 
-abstract class AbstraceSDK {
+use APIGateway\Protobuf\Request;
+use APIGateway\Protobuf\Request\Type;
+use APIGateway\Protobuf\Response;
+use Google\Protobuf\Any;
+use Google\Protobuf\Internal\Message;
+
+abstract class AbstractSDK {
 	protected $config;
 
 	protected $connection = NULL;
@@ -21,10 +27,7 @@ abstract class AbstraceSDK {
 		if (!class_exists('Google\\Protobuf\\Internal\\Message')) {
 			throw new Exception('Extension protobuf or package google/protobuf is required');
 		}
-		if (!class_exists('Swoole\\Coroutine\\Client')) {
-			throw new Exception('Swoole 2.0+ is required');
-		}
-		if (!class_exists('Proto\\Api\\Gateway\\Request')) {
+		if (!class_exists('APIGateway\\Protobuf\\Request')) {
 			throw new Exception('You must include a copy of APIGateway Protobuf');
 		}
 		$this->config = array_merge([
@@ -59,7 +62,7 @@ abstract class AbstraceSDK {
 	 * 
 	 * @access protected
 	 * @param string $action action name
-	 * @param array $data
+	 * @param Message $data
 	 * @return string
 	 */
 	protected function packRequest($action, $data): Request {
@@ -70,7 +73,7 @@ abstract class AbstraceSDK {
 		$result->setUuid($uuid);
 		$result->setType(Type::SYNC);
 		$any = new Any();
-		$any->pack($embed);
+		$any->pack($data);
 		$result->setData($any);
 		$result->setSign($this->createSign($uuid, $any->getValue()));
 		return $result;
