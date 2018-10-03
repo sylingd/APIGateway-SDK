@@ -17,6 +17,8 @@ use APIGateway\Protobuf\RequestType;
 use APIGateway\Protobuf\Response;
 use Google\Protobuf\Any;
 use Google\Protobuf\Internal\Message;
+use Google\Protobuf\Internal\GPBUtil;
+use Google\Protobuf\Internal\DescriptorPool;
 
 abstract class AbstractSDK {
 	protected $config;
@@ -31,9 +33,6 @@ abstract class AbstractSDK {
 		if (!class_exists('APIGateway\\Protobuf\\Request')) {
 			throw new Exception('You must include a copy of APIGateway Protobuf');
 		}
-		// import classes
-		$c = new EmptyResponse();
-		unset($c);
 		$this->config = array_merge([
 			'protocol' => Helper::PROTOCOL_TCP, // TCP or HTTP
 			'timeout' => 1,
@@ -92,6 +91,23 @@ abstract class AbstractSDK {
 	protected function unpackResponse($data): Response {
 		$result = new Response();
 		$result->mergeFromString($data);
+		// check if message exists
+		$any = $result->getData();
+		$url_prifix_len = strlen(GPBUtil::TYPE_URL_PREFIX);
+		$fully_qualifed_name = substr($any->getTypeUrl(), $url_prifix_len);
+		$pool = DescriptorPool::getGeneratedPool();
+		$desc = $pool->getDescriptorByProtoName('.' . $fully_qualifed_name);
+		if (is_null($desc)) {
+			$type = explode('.', $fully_qualifed_name);
+			$clazz = '';
+			foreach ($type as $v) {
+				$clazz .= '\\' . ucfirst($v);
+			}
+			if (class_exists($clazz)) {
+				$t = new $clazz();
+				unset($t);
+			}
+		}
 		return $result;
 	}
 	/**
