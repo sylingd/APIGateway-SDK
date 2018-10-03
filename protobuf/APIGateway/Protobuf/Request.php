@@ -30,7 +30,7 @@ class Request extends \Google\Protobuf\Internal\Message
      */
     private $uuid = '';
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Request.Type type = 5;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.RequestType type = 5;</code>
      */
     private $type = 0;
     /**
@@ -146,7 +146,7 @@ class Request extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Request.Type type = 5;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.RequestType type = 5;</code>
      * @return int
      */
     public function getType()
@@ -155,13 +155,13 @@ class Request extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Request.Type type = 5;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.RequestType type = 5;</code>
      * @param int $var
      * @return $this
      */
     public function setType($var)
     {
-        GPBUtil::checkEnum($var, \APIGateway\Protobuf\Request_Type::class);
+        GPBUtil::checkEnum($var, \APIGateway\Protobuf\RequestType::class);
         $this->type = $var;
 
         return $this;

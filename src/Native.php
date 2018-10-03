@@ -12,7 +12,6 @@
 namespace APIGateway;
 
 use APIGateway\Protobuf\Request;
-use APIGateway\Protobuf\Request\Type;
 use APIGateway\Protobuf\Response;
 use Google\Protobuf\Any;
 use Google\Protobuf\Internal\Message;

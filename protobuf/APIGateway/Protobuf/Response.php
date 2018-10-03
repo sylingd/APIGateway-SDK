@@ -14,7 +14,7 @@ use Google\Protobuf\Internal\GPBUtil;
 class Response extends \Google\Protobuf\Internal\Message
 {
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Response.Code code = 2;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.ResponseCode code = 2;</code>
      */
     private $code = 0;
     /**
@@ -48,7 +48,7 @@ class Response extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Response.Code code = 2;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.ResponseCode code = 2;</code>
      * @return int
      */
     public function getCode()
@@ -57,13 +57,13 @@ class Response extends \Google\Protobuf\Internal\Message
     }
 
     /**
-     * Generated from protobuf field <code>.APIGateway.protobuf.Response.Code code = 2;</code>
+     * Generated from protobuf field <code>.APIGateway.protobuf.ResponseCode code = 2;</code>
      * @param int $var
      * @return $this
      */
     public function setCode($var)
     {
-        GPBUtil::checkEnum($var, \APIGateway\Protobuf\Response_Code::class);
+        GPBUtil::checkEnum($var, \APIGateway\Protobuf\ResponseCode::class);
         $this->code = $var;
 
         return $this;

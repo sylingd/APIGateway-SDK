@@ -12,7 +12,7 @@
 namespace APIGateway;
 
 use APIGateway\Protobuf\Request;
-use APIGateway\Protobuf\Request\Type;
+use APIGateway\Protobuf\RequestType;
 use APIGateway\Protobuf\Response;
 use Google\Protobuf\Any;
 use Google\Protobuf\Internal\Message;
@@ -71,7 +71,7 @@ abstract class AbstractSDK {
 		$result->setAppid($this->config['appid']);
 		$result->setAction($action);
 		$result->setUuid($uuid);
-		$result->setType(Type::SYNC);
+		$result->setType(RequestType::SYNC);
 		$any = new Any();
 		$any->pack($data);
 		$result->setData($any);
