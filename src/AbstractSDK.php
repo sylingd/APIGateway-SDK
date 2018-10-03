@@ -12,6 +12,7 @@
 namespace APIGateway;
 
 use APIGateway\Protobuf\Request;
+use APIGateway\Protobuf\EmptyResponse;
 use APIGateway\Protobuf\RequestType;
 use APIGateway\Protobuf\Response;
 use Google\Protobuf\Any;
@@ -30,6 +31,9 @@ abstract class AbstractSDK {
 		if (!class_exists('APIGateway\\Protobuf\\Request')) {
 			throw new Exception('You must include a copy of APIGateway Protobuf');
 		}
+		// import classes
+		$c = new EmptyResponse();
+		unset($c);
 		$this->config = array_merge([
 			'protocol' => Helper::PROTOCOL_TCP, // TCP or HTTP
 			'timeout' => 1,
