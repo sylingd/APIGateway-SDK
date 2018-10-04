@@ -79,5 +79,40 @@ public function call(string $action, Google\Protobuf\Internal\Message $data): AP
 $embed = new Proto\Api\User\Get\Request();
 $embed->setId(1);
 
-$api->call('user.get', $embed);
+$result = $api->call('user.get', $embed);
+```
+
+### 返回内容
+
+返回的是一个`APIGateway\Protobuf\Response`，包含以下内容：
+
+```
+/**
+ * 状态码，位于APIGateway\Protobuf\ResponseCode中，分别有：
+ * ResponseCode::SUCCESS 请求成功
+ * ResponseCode::WRONG_REQUEST 请求参数错误，可能缺少必备参数，或使用了错误的Message
+ * ResponseCode::INVALID_AUTH 签名校验失败或没有相应接口的权限
+ * ResponseCode::INVALID_ACTION 请求的接口不存在
+ * ResponseCode::SERVICE_UNREACHABLE 目前该服务不可用
+ * ResponseCode::OTHER 其他错误
+ */
+echo $result->getCode();
+//请求生成的唯一ID，一般不需要单独处理
+echo $result->getUuid();
+//文字描述的错误信息
+echo $result->getError();
+//请求成功时，返回接口内容
+$result->getData();
+```
+
+处理返回内容的一般方式如下（需保证相应的Protobuf存在）：
+
+```php
+if ($result->getCode() === ResponseCode::SUCCESS) {
+	$embed = $result->getData()->unpack();
+	//下面就是你的业务代码了
+	echo $embed->getName();
+} else {
+	//发生错误，进一步处理，如重新请求，或显示出错页面等
+}
 ```
