@@ -86,7 +86,7 @@ $result = $api->call('user.get', $embed);
 
 返回的是一个`APIGateway\Protobuf\Response`，包含以下内容：
 
-```
+```php
 /**
  * 状态码，位于APIGateway\Protobuf\ResponseCode中，分别有：
  * ResponseCode::SUCCESS 请求成功
