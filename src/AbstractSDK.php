@@ -92,38 +92,7 @@ abstract class AbstractSDK {
 		$result = new Response();
 		$result->mergeFromString($data);
 		// check if message exists
-		$any = $result->getData();
-		if (extension_loaded('protobuf')) {
-			try {
-				$any->unpack();
-			} catch (\Exception $e) {
-				$fully_qualifed_name = substr($any->getTypeUrl(), strlen(self::TYPE_URL_PREFIX) + 1);
-				$type = explode('.', $fully_qualifed_name);
-				$qualifed_clazz = '';
-				foreach ($type as $v) {
-					$qualifed_clazz .= '\\' . ucfirst($v);
-				}
-				if (class_exists($qualifed_clazz)) {
-					$t = new $qualifed_clazz();
-					unset($t);
-				}
-			}
-		} else {
-			$fully_qualifed_name = substr($any->getTypeUrl(), strlen(self::TYPE_URL_PREFIX) + 1);
-			$pool = DescriptorPool::getGeneratedPool();
-			$desc = $pool->getDescriptorByProtoName('.' . $fully_qualifed_name);
-			if (is_null($desc)) {
-				$type = explode('.', $fully_qualifed_name);
-				$clazz = '';
-				foreach ($type as $v) {
-					$clazz .= '\\' . ucfirst($v);
-				}
-				if (class_exists($clazz)) {
-					$t = new $clazz();
-					unset($t);
-				}
-			}
-		}
+		Helper::unpackAny($result->getData());
 		return $result;
 	}
 	/**
